@@ -8,11 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Services\" />
     <None Remove="Swashbuckle" />
     <None Remove="Swashbuckle.AspNetCore.Swagger" />
     <None Remove="Swashbuckle.AspNetCore.SwaggerGen" />
     <None Remove="Swashbuckle.AspNetCore.SwaggerUI" />
+    <None Remove="DataTransferObjects\" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Clients\" />
+    <None Remove="Interfaces\" />
+    <None Remove="AutoMapper" />
+    <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -28,9 +34,15 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="DataTransferObjects\" />
+    <Folder Include="Clients\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

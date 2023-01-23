@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WeatherApp.Clients;
 using WeatherApp.Data;
+using WeatherApp.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,13 +20,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddSingleton<IWeatherClient, OpenWeatherClient>();
+
+builder.Services.AddHttpClient<IWeatherClient, OpenWeatherClient>(client =>
+{
+    client.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseMigrationsEndPoint();
 }
 else
 {
@@ -41,10 +52,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors(x => x.AllowAnyHeader()
+      .AllowAnyMethod()
+      .AllowAnyOrigin());
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
-
