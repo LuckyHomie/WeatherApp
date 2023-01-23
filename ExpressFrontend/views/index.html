@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <body>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <div class="input-group mb-3" style="padding: 2%;">
+      <input id="mySearchField" type="text" class="form-control" placeholder="City name" aria-label="City name" aria-describedby="basic-addon2" value="Rome">
+      <div class="input-group-append">
+        <button id="mySearchButton" class="btn btn-outline-primary" type="button">Search</button>
+      </div>
+    </div>
+    <div class="container" id="myContentArea" </div>
+    
+
+    <script>
+
+      $(function() {
+       var _myContentArea = document.getElementById("myContentArea");
+       var _mySearchButton = document.getElementById("mySearchButton");
+       _mySearchButton.onclick = getData;
+
+       function getData(){
+       var _mySearchField = document.getElementById("mySearchField");
+           $.ajax({
+           url: "https://localhost:7063/weather/"+_mySearchField.value,
+          method: "GET",
+           dataType: "json",
+           success: function(data) {
+               var str = "";
+               str += '<h1>Weather for ' + data.city.name + '</h1><br>'          
+              for(var i= 0; i < data.list.length; i++){
+
+                str += 'Date: ' + data.list[i].dt_txt + ' Minimal temperature: ' + data.list[i].main.temp_min + '°C Maximum temperature: ' + data.list[i].main.temp_max + '°C Wind direction: ' + data.list[i].wind.deg + '° Wind force: ' + data.list[i].wind.speed + 'm/s Rain: ';
+                if (data.list[i].rain != null)
+                {
+                  str += Object.values(data.list[i].rain)[0] + 'mm <br><br>';
+                } else
+                {
+                  str += '0 mm <br><br>';
+                }
+              }
+             _myContentArea.innerHTML = str;
+           }
+           });
+       }
+       window.onload = getData;
+   });
+   </script>
+  </body>
+</html>
